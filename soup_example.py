@@ -15,6 +15,6 @@ soup = BeautifulSoup(html, 'html.parser')
 # Retrieve all of the anchor tags <a> <a/>
 # e.g. <a href="https://www.w3schools.com">Visit W3Schools.com!</a>
 tags = soup('a')
-for tag in rags:
+for tag in tags:
   # Find all hypertext links on the page
   print(tag.get('href', None))
