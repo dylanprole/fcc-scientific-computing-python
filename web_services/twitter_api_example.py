@@ -1,5 +1,5 @@
 import urllib.request, urllib.parse, urllib.error
-import twurl # Library created by Dr Chuck
+# import twurl # Library created by Dr Chuck
 import json
 
 # API name - base url we are going to use for the API
@@ -11,8 +11,9 @@ while True:
   if len(acct) < 1: break
   # Get the first 5 friends of this screen name
   # twurl includes all api account info
-  url = twurl.augment(TWITTER_URL,
-                      {'screen_name': acct, 'count': '5'})
+  # url = twurl.augment(TWITTER_URL,
+  #                     {'screen_name': acct, 'count': '5'})
+  url = None
   print('Retrieving', url)
   # Open url connectioned and receive data from api
   connection = urllib.request.urlopen(url)
