@@ -39,7 +39,7 @@ print('Name:', tree.find('name').text) # ("Chuck")Pulls the text from within tag
 print('Attr:', tree.find('email').get('hide')) # ("yes") Get attribute of <email>
 
 # Example 2
-import xsml.etree.ElementTree as ET
+import xml.etree.ElementTree as ET
 input = '''
 <stuff>
   <users>
