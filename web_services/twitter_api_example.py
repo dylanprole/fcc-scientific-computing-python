@@ -1,5 +1,5 @@
 import urllib.request, urllib.parse, urllib.error
-import twurl
+import twurl # Library created by Dr Chuck
 import json
 
 # API name - base url we are going to use for the API
