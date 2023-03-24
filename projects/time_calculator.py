@@ -1,3 +1,6 @@
+# Script for adding a duration to a 12 hour time
+# Replit link: https://replit.com/@dylanprole/boilerplate-time-calculator
+
 def convert_12_to_24(time_12):
     # Extract hour, minute, and time of day
     hour = time_12.split()[0].split(':')[0]
