@@ -1,5 +1,5 @@
-# Functions for arithmetic_arranger
-# Replit link: https://replit.com/@dylanprole/boilerplate-arithmetic-formatter#main.py
+# Script for formatting a list of equations to an arithmetic format string
+# Replit link: https://replit.com/@dylanprole/boilerplate-arithmetic-formatter
 
 def custom_eval(split_equation):
     # Addition

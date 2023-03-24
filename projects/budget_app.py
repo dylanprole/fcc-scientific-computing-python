@@ -1,3 +1,6 @@
+# Script for creating budget tracking objects and creating a spend chart
+# Replit link: https://replit.com/@dylanprole/boilerplate-budget-app
+
 class Category:
 
     def __init__(self, category):
@@ -6,9 +9,11 @@ class Category:
         self.balance = 0
 
     def check_funds(self, amount):
+        # Ensure amount is always positive
+        check_amount = abs(amount)
         # Check if the amount is valid given current balance
-        # Note: amount will be negative if withdrawing
-        if self.balance + amount < 0:
+
+        if check_amount > self.balance:
             return False
         else:
             return True
@@ -16,17 +21,14 @@ class Category:
     def deposit(self, amount, description=''):
         # Make sure deposit amount is positive
         deposit_amount = abs(amount)
-        # If the transaction is valid, update ledger
-        if self.check_funds(deposit_amount):
-            self.balance += deposit_amount
-            self.ledger.append({
-                'amount': deposit_amount,
-                'description': description
-            })
-            return True
-        # Return False if not a valid transaction
-        else:
-            return False
+
+        # Update ledger
+        self.balance += deposit_amount
+        self.ledger.append({
+            'amount': deposit_amount,
+            'description': description
+        })
+        return True
 
     def withdraw(self, amount, description=''):
         # Make sure withdraw amount is negative
@@ -121,7 +123,74 @@ class Category:
         return display
         
 def create_spend_chart(categories):
-    pass
+    # Spend Chart
+    # Create categories list from objects
+    # categories = [food, clothing, auto]
+
+    # Create empty category list variable and total withdrawls
+    categories_list = list()
+    total_withdrawals = 0
+
+    # Loop through each category and find the total amount withdrawn
+    for cat in categories:
+        # Find withdrawal amount
+        cat_withdrawls = 0
+
+        # Loop through each transaction in the category object ledger
+        for transaction in cat.get_ledger():
+            # Check if transaction was negative, and add to total withdrawals
+            # and individual category withdrawals
+            if transaction['amount'] < 0:
+                total_withdrawals += abs(transaction['amount'])
+                cat_withdrawls += abs(transaction['amount'])
+
+        # Append the category name and withdrawal amount
+        categories_list.append([cat.get_category(),cat_withdrawls])
+
+    # Convert the withdrawal amounts to percentages of total amount withdrawn
+    categories_percent = list()
+
+    for cat in categories_list:
+        # Round down to lowest 10
+        cat_percentage = int((((cat[1] / total_withdrawals)*100.0)//10)*10)
+        categories_percent.append([cat[0],cat_percentage])
+    
+    # List comprehension for creating a list of descending percentages
+    percentages = [str(100 - i) for i in range(0,101,10)]
+
+    chart = 'Percentage spent by category\n'
+
+    # Add percentages and bars to chart
+    for percentage in percentages:
+        chart += ' '*(3 - len(percentage))
+        chart += percentage + '|'
+        for cat in categories_percent:
+            if cat[1] >= int(percentage):
+                chart += ' o '
+            else:
+                chart += '   '
+        chart += ' \n'
+
+    # Add x axis to chart
+    chart += ' '*4 + '-'*(3*len(categories_percent) + 1)
+
+    # Add x axis labels
+    labels = categories_percent.copy()
+
+    # Find max length category
+    max_len = max([len(i[0]) for i in categories_percent])
+    # Add white space to shorter categories
+    for label in labels:
+        label[0] = label[0] + ' '*(max_len - len(label[0]))
+
+    # Loop through each label and add to chart
+    for i in range(max_len):
+        chart += '\n    '
+        for label in labels:
+            chart += f' {label[0][i]} '
+        chart += ' '
+
+    return chart
 
 food = Category("Food")
 food.deposit(1000, "initial deposit")
@@ -141,76 +210,6 @@ print()
 print(clothing)
 print()
 print(auto)
+print()
 
-# print(create_spend_chart([food, clothing, auto]))
-
-# Spend Chart
-
-# Create categories list from objects
-categories = [food, clothing, auto]
-
-# Create empty category list variable and total withdrawls
-categories_list = list()
-total_withdrawals = 0
-
-# Loop through each category and find the total amount withdrawn (exlcuding transfers)
-for cat in categories:
-    # Find withdrawal amount
-    cat_withdrawls = 0
-
-    # Loop through each transaction in the category object ledger
-    for transaction in cat.get_ledger():
-        # Check if transaction was negative, and add to total withdrawals
-        # and individual category withdrawals (excluding transfers)
-        if transaction['amount'] < 0 and transaction['description'][:12] != 'Transfer to ':
-            total_withdrawals += abs(transaction['amount'])
-            cat_withdrawls += abs(transaction['amount'])
-
-    # Append the category name and withdrawal amount
-    categories_list.append([cat.get_category(),cat_withdrawls])
-
-# Convert the withdrawal amounts to percentages of total amount withdrawn
-categories_percent = list()
-
-for cat in categories_list:
-    # Round to nearest 10
-    cat_percentage = int(round(((cat[1] / total_withdrawals) * 10), 0)*10)
-    categories_percent.append([cat[0],cat_percentage])
-
-
-# categories_percent = [['Food',60], ['Clothing',20], ['Auto',10]]
-
-# List comprehension for creating a list of descending percentages
-percentages = [str(100 - i) for i in range(0,101,10)]
-
-# Add percentages and bars to chart
-for percentage in percentages:
-    print(' '*(3 - len(percentage)), end='')
-    print(percentage + '|', end='')
-    for cat in categories_percent:
-        if cat[1] >= int(percentage):
-            print(' o ', end='')
-        else:
-            print('   ', end='')
-    print()
-
-# Add x axis to chart
-print(' '*4 + '-'*(3*len(categories_percent) + 1))
-
-# Add x axis labels
-labels = categories_percent.copy()
-
-# Find max length category
-max_len = max([len(i[0]) for i in categories_percent])
-# Add white space to shorter categories
-for label in labels:
-    label[0] = label[0] + ' '*(max_len - len(label[0]))
-
-# Loop through each label and add to chart
-for i in range(max_len):
-    print('    ', end='')
-    for label in labels:
-        print(f' {label[0][i]} ', end='')
-    print(' ')
-
-
+print(create_spend_chart([food, clothing, auto]))
