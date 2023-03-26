@@ -6,4 +6,4 @@ From FCC:
 - In the Scientific Computing with Python Certification, you'll learn Python fundamentals like variables, loops, conditionals, and functions. Then you'll quickly ramp up to complex data structures, networking, relational databases, and data visualization.
 
 
-![Certificate](https://www.freecodecamp.org/certification/dylanprole/scientific-computing-with-python-v7)
+https://www.freecodecamp.org/certification/dylanprole/scientific-computing-with-python-v7
