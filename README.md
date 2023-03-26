@@ -7,5 +7,3 @@ Repo containing lecture examples and final projects for certification.
 
 ## Certificate
 https://www.freecodecamp.org/certification/dylanprole/scientific-computing-with-python-v7
-
-<img src="https://www.freecodecamp.org/certification/dylanprole/scientific-computing-with-python-v7" alt="Certificate">
